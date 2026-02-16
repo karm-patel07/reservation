@@ -1,0 +1,2 @@
+- [x] Add CSS styles for the .notFound section to center content, style image, h1, p, and link.
+- [x] Fix reservation form CSS: adjust input[type="email"] to use flex:1 instead of width:100%, add button styles.
