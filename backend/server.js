@@ -1,14 +1,23 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
+require("dotenv").config({
+  path: path.join(__dirname, "config", "config.env"),
+});
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    credentials: true,
+  }),
+);
 //Reservation;
 // MongoDB Connection
 mongoose
-  .connect("mongodb://localhost:27017/REST")
+  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/REST")
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
@@ -22,7 +31,7 @@ const reservationSchema = new mongoose.Schema(
     date: String,
     time: String,
   },
-  { collection: "rest" }
+  { collection: "rest" },
 );
 
 const Reservation = mongoose.model("", reservationSchema);
@@ -45,4 +54,6 @@ app.get("/api/reservation", async (req, res) => {
 });
 
 // Server
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(process.env.PORT || 5000, () =>
+  console.log(`Server running on port ${process.env.PORT || 5000}`),
+);
